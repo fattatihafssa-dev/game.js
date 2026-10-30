@@ -1,0 +1,1 @@
+Records completed games and handles searching and filtering.
