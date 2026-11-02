@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -37,10 +38,12 @@
         class="h-full w-full object-contain"
     >
 
-<main class="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-6 sm:px-6 md:flex-row md:items-start lg:gap-6 lg:px-8 lg:py-8">
+    <main class="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-6 sm:px-6 md:flex-row md:items-start">
+
         <!-- Side menu -->
-      <aside class="w-full min-w-0 shrink-0 rounded-2xl border border-blue-300 bg-black p-6 text-white sm:h-48 lg:h-54 md:w-40"> 
-                <h2 class="mb-6 rounded-xl bg-yellow-400 px-4 py-2 font-bold text-black">
+        <aside class="w-full min-w-0 shrink-0 rounded-2xl border border-blue-300 bg-black p-6 text-white ">
+
+            <h2 class="mb-6 rounded-xl bg-yellow-400 px-4 py-2 font-bold text-black">
                 Menu
             </h2>
 
@@ -62,110 +65,109 @@
                 </a>
             </div>
 
-        </aside>
+       
 
+        <!-- Players -->
+        <section id="players" class="mb-10 min-w-0 w-full flex-[2]">
 
-            <!-- Players -->
-              <section id="players" class="mb-10 min-w-0 w-full flex-[2]">
+            <h2 class="mb-6 rounded-lg border border-yellow-300 p-4 text-2xl font-bold text-white">
+                Profils des joueurs
+            </h2>
 
-                <h2 class="mb-6 rounded-lg border border-yellow-300 p-4 text-2xl font-bold text-white">
-                    Profils des joueurs
-                </h2>
+            <form id="players-form" class="mb-8 rounded-xl border border-yellow-300 p-6 text-white">
 
-                <form id="players-form" class="mb-8 rounded-xl border border-yellow-300 p-6 text-white">
+                <h3 class="mb-4 text-lg font-semibold">
+                    Créer un nouveau profil
+                </h3>
 
-                    <h3 class="mb-4 text-lg font-semibold">
-                        Créer un nouveau profil
-                    </h3>
+                <div class="mb-4 rounded-lg border border-yellow-300 p-4">
 
-                    <div class="mb-4 rounded-lg border border-yellow-300 p-4">
-
-                        <label for="nickname" class="mb-2 block">
-                            Pseudo
-                        </label>
-
-                        <input
-                            type="text"
-                            id="nickname"
-                            placeholder="Entrez votre pseudo"
-                            class="w-full rounded-lg bg-slate-800 p-3 text-white"
-                        >
-
-                    </div>
-
-                    <div class="mb-4 rounded-lg border border-yellow-300 p-4">
-
-                        <label for="avatar" class="mb-2 block">
-                            Choisissez un avatar
-                        </label>
-
-                        <select
-                            id="avatar"
-                            class="w-full rounded-lg bg-slate-800 p-3 text-white"
-                        >
-                            <option value="empereur">Empereur</option>
-                            <option value="citizen">Citoyen</option>
-                            <option value="slave">Esclave</option>
-                        </select>
-
-                    </div>
-
-                    <button
-                        type="submit"
-                        class="rounded-lg bg-yellow-400 px-6 py-3 font-bold text-black hover:bg-yellow-200"
-                    >
-                        Ajoutez un joueur
-                    </button>
-
-                </form>
-
-                <div
-                    id="players-list"
-                    class="my-4 grid grid-cols-1 gap-4 border-t-2 border-amber-500 pt-4 sm:grid-cols-2 lg:grid-cols-3">
-                </div>
-
-                <!-- Three boxes -->
-                <div class="grid grid-cols-1 gap-6 sm:grid-cols-3 lg:w-56 md:w-40 sm:w-40">
-
-                    <div class="min-h-64  rounded-lg border-2 border-white p-6"></div>
-
-                    <div class="min-h-64 rounded-lg border-2 border-white p-6"></div>
-
-                    <div class="min-h-64 rounded-lg border-2 border-white p-6"></div>
-
-                </div>
-
-            </section>
-
-            <!-- History -->
-            <section id="history" class="mb-12" min-w-0 w-full  rounded-2xl bg-slate-800 p-2  border-blue-300>
-
-                <h2 class="mb-6 text-2xl font-bold text-yellow-300">
-                    Historique
-                </h2>
-
-                <div class="mb-6">
-
-                    <label for="history-search" class="mb-2 block">
-                        Recherche un joueur
+                    <label for="nickname" class="mb-2 block">
+                        Pseudo
                     </label>
 
                     <input
                         type="text"
-                        id="history-search"
-                        placeholder="Entrez un pseudo..."
-                        class="w-full rounded-lg bg-slate-700 p-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-400"
+                        id="nickname"
+                        placeholder="Entrez votre pseudo"
+                        class="w-full rounded-lg bg-slate-800 p-3 text-white"
                     >
 
                 </div>
 
-                <label for="result-filter" class="mb-8 block ">
-                    Filtrer par résultat
+                <div class="mb-4 rounded-lg border border-yellow-300 p-4">
+
+                    <label for="avatar" class="mb-2 block">
+                        Choisissez un avatar
+                    </label>
+
+                    <select
+                        id="avatar"
+                        class="w-full rounded-lg bg-slate-800 p-3 text-white"
+                    >
+                        <option value="empereur">Empereur</option>
+                        <option value="citizen">Citoyen</option>
+                        <option value="slave">Esclave</option>
+                    </select>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="rounded-lg bg-yellow-400 px-6 py-3 font-bold text-black hover:bg-yellow-200"
+                >
+                    Ajoutez un joueur
+                </button>
+
+            </form>
+
+            <div
+                id="players-list"
+                class="my-4 grid grid-cols-1 gap-4 border-t-2 border-amber-500 pt-4 sm:grid-cols-2 lg:grid-cols-3">
+            </div>
+
+            <!-- Three boxes -->
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
+
+                <div class="min-h-64 rounded-lg border-2 border-white p-6"></div>
+
+                <div class="min-h-64 rounded-lg border-2 border-white p-6"></div>
+
+                <div class="min-h-64 rounded-lg border-2 border-white p-6"></div>
+
+            </div>
+
+        </section>
+        </aside>
+
+        <!-- History -->
+        <section id="history" class="mb-12 min-w-0 w-full rounded-2xl border border-blue-300 bg-slate-800 p-4 ">
+
+            <h2 class="mb-6 text-2xl font-bold text-yellow-300">
+                Historique
+            </h2>
+
+            <div class="mb-6">
+
+                <label for="history-search" class="mb-2 block">
+                    Recherche un joueur
                 </label>
 
-            </section>
+                <input
+                    type="text"
+                    id="history-search"
+                    placeholder="Entrez un pseudo..."
+                    class="w-full rounded-lg bg-slate-700 p-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-400"
+                >
 
-        </div>
+            </div>
+
+            <label for="result-filter" class="mb-8 block">
+                Filtrer par résultat
+            </label>
+
+        </section>
+    
 
     </main>
 
