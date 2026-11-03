@@ -33,42 +33,80 @@
 
     <!-- Image -->
     <img
-        src="https://t4.ftcdn.net/jpg/05/22/47/03/360_F_522470379_KJPDr4tkGN5RVNJAeE3PJZrvyPX0WFTv.jpg"
+        src="https://images.steamusercontent.com/ugc/540766501024050137/FA4A40F989911E52B214F4D852AF8CE75AAA3515/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
         alt="Emperor"
-        class="h-full w-full object-contain"
+        class="h-56 w-full object-contain"
     >
 
-    <main class="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-6 ">
+    <main class="mx-auto grid w-full max-w-7xl grid-cols-1 gap-6 px-4 py-6 lg:grid-cols-12">
+
+    <!-- LEFT COLUMN -->
+    <div class="flex min-w-0 flex-col gap-4 lg:col-span-4">
 
         <!-- Side menu -->
-        <aside class="w-full min-w-0 shrink-0 rounded-2xl border border-blue-300 bg-black p-6 text-white">
+        <aside class="w-full min-w-0 shrink-0 rounded-2xl border border-blue-300 bg-black p-4 text-white">
 
-            <h2 class="mb-6 rounded-xl bg-yellow-400 px-4 py-2 font-bold text-black">
+            <h2 class="mb-4 rounded-xl bg-yellow-400 px-4 py-2 font-bold text-black">
                 Menu
             </h2>
 
-            <div class="flex flex-col gap-6">
-                <a href="#home" class="hover:text-yellow-400">
-                    Information
-                </a>
-
-                <a href="#Profil" class="hover:text-yellow-400">
-                    👤 Players profile
-                </a>
-
-                <a href="#Classement" class="hover:text-yellow-400">
-                    Classement
-                </a>
-
-                <a href="#playing-rules" class="hover:text-yellow-400">
-                    Playing rules
-                </a>
+            <div class="flex flex-col gap-3">
+                <a href="#home" class="hover:text-yellow-400">Information</a>
+                <a href="#Profil" class="hover:text-yellow-400">👤 Players profile</a>
+                <a href="#Classement" class="hover:text-yellow-400">🏆Classement</a>
+                <a href="#playing-rules" class="hover:text-yellow-400">Playing rules</a>
             </div>
 
-       
+        </aside>
+
+        <!-- History -->
+        <section id="history" class="mb-12 min-w-0 w-full rounded-2xl border border-blue-300 bg-slate-800 p-4">
+
+            <h2 class="mb-6 text-2xl font-bold text-yellow-300">
+                Historique
+            </h2>
+
+            <div class="mb-6">
+
+                <label for="history-search" class="mb-2 block">
+                    Recherche un joueur
+                </label>
+
+                <input
+                    type="text"
+                    id="history-search"
+                    placeholder="Entrez un pseudo..."
+                    class="w-full rounded-lg bg-slate-700 p-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-400"
+                >
+
+                <select id="result-filter" class="mt-3 w-full rounded-lg bg-slate-800 p-2 text-white">
+                    <option value="all">All results</option>
+                    <option value="win">Wins</option>
+                    <option value="Loss">losszs</option>
+                    <option value="Draw">Draws</option>
+                </select>
+
+                <select id="date-filter" class="mt-3 w-full rounded-lg bg-slate-800 p-2 text-white">
+                    <option value="all">All dates</option>
+                    <option value="today">Today</option>
+                    <option value="Week">Week</option>
+                </select>
+
+            </div>
+
+           <div id="history-list" class=""flex flex-col gap-4 >
+            <p class="text-centre text-slate-400">
+                Auncun historique pour le moment
+            </p>
+           </div> 
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="min-w-0 lg:col-span-8">
 
         <!-- Players -->
-        <section id="players" class="mb-10 min-w-0 w-full flex-[2]">
+        <section id="players" class="mb-10 min-w-0 w-full">
 
             <h2 class="mb-6 rounded-lg border border-yellow-300 p-4 text-2xl font-bold text-white">
                 Profils des joueurs
@@ -126,50 +164,77 @@
                 class="my-4 grid grid-cols-1 gap-4 border-t-2 border-amber-500 pt-4 sm:grid-cols-2 lg:grid-cols-3">
             </div>
 
-            <!-- Three boxes -->
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
-
-                <div class="min-h-64 rounded-lg border-2 border-white p-6"></div>
-
-                <div class="min-h-64 rounded-lg border-2 border-white p-6"></div>
-
-                <div class="min-h-64 rounded-lg border-2 border-white p-6"></div>
-
-            </div>
-
         </section>
 
-        <!-- History -->
-        <section id="history" class="mb-12 min-w-0 w-full rounded-2xl border border-blue-300 bg-slate-800 p-4">
+        <!-- Game -->
+        <section id="game" class="mb-10">
 
-            <h2 class="mb-6 text-2xl font-bold text-yellow-300">
-                Historique
+            <h2 class="mb-6 text-2xl font-bold text-white">
+                Partie
             </h2>
+            <!-- Game information -->
+<div class="rounded-xl border border-yellow-400 bg-slate-900 p-6">
 
-            <div class="mb-6">
+    <h3 class="mb-4 text-xl font-bold text-yellow-300">
+        Informations de la partie
+    </h3>
 
-                <label for="history-search" class="mb-2 block">
-                    Recherche un joueur
-                </label>
+    <p class="mb-3">
+        Joueur sélectionné :
+        <span id="current-player" class="font-bold text-white">
+            Aucun joueur
+        </span>
+    </p>
 
-                <input
-                    type="text"
-                    id="history-search"
-                    placeholder="Entrez un pseudo..."
-                    class="w-full rounded-lg bg-slate-700 p-3 text-white focus:outline-none focus:ring-2 focus:ring-orange-400"
-                >
+    <p class="mb-3">
+        Manche :
+        <span id="round-number" class="font-bold text-white">
+            0 / 12
+        </span>
+    </p>
 
-            </div>
+    <div class="mt-4 grid grid-cols-2 gap-4">
 
-            <label for="result-filter" class="mb-8 block">
-                Filtrer par résultat
-            </label>
+        <div class="rounded-lg border border-yellow-400 p-4 text-center">
+            <p class="text-yellow-300">Votre score</p>
+            <p id="player-score" class="text-2xl font-bold text-white">0</p>
+        </div>
 
-        </section>
-        </aside>
-        
+        <div class="rounded-lg border border-blue-400 p-4 text-center">
+            <p class="text-blue-300">Score ordinateur</p>
+            <p id="computer-score" class="text-2xl font-bold text-white">0</p>
+        </div>
 
-    </main>
+    </div>
+     <div class="mt-6 rounded-xl border border-blue-600 bg-slate-900 p-6">
+        <h3 class="mb-4 text-xl font-bold text-blue-300">
+            Cartes de l'ordinateur
+        </h3>
+        <div id="computer-hand" class="grid grid-cols-2 gap-4 sm:grid-cols-5">
+
+        </div>
+     </div>
+     <div id="duel-result"
+         class="mt-6 rounded-xl border boreder-yellow-400 bg-slate-900 p-6 text-centre">
+         <p class="text-xl font-bold text-yellow-300">
+            Resultat de duek
+         </p>
+         <p id="duel-message" class="mt-3 text-white">
+            En attente de duel....
+         </p>
+        </div>
+
+    <button
+        id="start-game"
+        type="button"
+        class="mt-6 w-full rounded-lg bg-yellow-400 p-3 font-bold text-black hover:bg-yellow-300"
+    >
+        Commencer la partie
+    </button>
+
+    </div>
+
+</main>
     </body>
 
 
