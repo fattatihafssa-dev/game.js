@@ -4,17 +4,17 @@ export function getPlayers() {
 }
 
 export function savePlayers(players){
-    localStorage.setItem("players",JSON.stringify(players));
+   localStorage.setItem("players", JSON.stringify(players));
 
 }
 
 export function getSelectedPlayer(){
     return JSON.parse(localStorage.getItem("selectedPlayer"))|| null;
+
 }
 
-export function saveSelectedPlayer(Player){
-    localStorage.setItem("selectedPlayer",JSON.stringify(player));
-
+export function saveSelectedPlayer(player) {
+    localStorage.setItem("selectedPlayer", JSON.stringify(player));
 }
 
 export function getHistory(){

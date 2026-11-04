@@ -44,7 +44,8 @@ const players = [
     },
 
 
-]
+];
+
 savePlayers(players);
 
 export function validationNickname(nickname){
@@ -88,18 +89,101 @@ export function addPlayer(nickname,avatar){
         id: `p_${Date.now()}`,
         nickname:nickname,
         avatar:avatar,
-        creatAt : new Date().toIS
+        createdAt : new Date().toISOString().split("T")[0]
+      };
+       const players = getPlayers();
+       players.push(newPlayer)
+      savePlayers(players);
+      return {
 
-      }
-    const players = getPlayers();
-    players.push(newPlayer);
-    savePlayers(players);
-    return {
+        success : true ,
+        message: "Joueur ajouté avec succès."
+      };
+    }
+
+     export function editPlayer(id,newNickname,newAvatar){
+        const players = getPlayers();
+        const player = players.find(player=> player.id===id);
+        if(!player){
+        return {
+            success: false,
+            message : "Joueur introvable."
+
+        };
+        }
+          if (!validateNickname(newNickname)){
+            return {
+                success = false, 
+                message = "Pseudo introuvale."
+
+            };
+          }
+          const  nickNameAlreadyUsed = players.some(player =>
+            player.id !== id &&
+            player.nickname.toLowerCase() ===newNickname.toLowerCase()
+            
+          );
+        
+        const allowedAvatars = ["empereur","citoyens","slave"];
+        return {
+            success : false,
+            message : "Avatar introuvable."
+        };
+    }  
+     player.nickname = newNickname;
+     player.avatar = newAvatar;
+       
+     savePlayers(players);
+     return {
          success: true,
-         message:"Joueur ajouté avac succés."
+        message: "Joueur modifié avec succès."
     };
-}
-    export function getSelectedPlayer(){
+
+    export function deletPlayer(id){
+        const players = getPlayers();
+        const updatePlayers = players.filter(player =>
+            player.id !== id 
+        );
+        if (updatePlayers.length === players.length){
+            return {
+                success: false,
+                message:"Joueur introvable."
+            };
+
+            }
+
+            savePlayers(updatePlayers);
+
+            return {
+                success:true ,
+                message:"Joueur supprimé avec succés."
+            };
+        }
+            export function getPlayerById(id){
+                const players = getPlayers();
+                return players.find(player => player.id)|| null ; 
+
+            }
+
+            const function selectPlayer(id){
+                const player = getPlayerById(id);
+
+                if(!player){
+                    return {
+                        success:false ,
+                        message:"Joueur supprimé avec succés."
+
+                    };
+
+                }
+                 saveSelectPlayer(player);
+                 return {
+                    success:true ,
+                    message:"Joueur supprimé avec succés."
+                 };
+                 }
+               
+           export function getSelectedPlayer(){
         return JSON.perse(localStorage.getItem("SelectedPlayer")) || null ; 
  
  
@@ -118,4 +202,6 @@ export function addPlayer(nickname,avatar){
 
 export function saveHistory(){
     return parse(localStorage.getItem)
+    
 }
+
