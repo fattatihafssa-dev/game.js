@@ -22,9 +22,7 @@
     <!-- Navigation -->
     <nav class="flex flex-wrap items-center justify-between gap-4 border-b border-yellow-600 bg-black px-8 py-5">
 
-        <h2 class="text-xl font-bold text-yellow-400">
-            ⚔ EMPEREUR
-        </h2>
+        
 
        <nav class="flex flex-wrap items-center justify-between gap-4 border-b border-yellow-600 bg-black px-6 py-5">
 
@@ -33,23 +31,15 @@
     </h2>
 
     <div class="flex flex-wrap gap-6">
-        <a href="#Cards" class="text-white hover:text-yellow-400">Accueil</a>
-        <a href="#game" class="text-white hover:text-yellow-400">Partie</a>
-        <a href="#players" class="text-white hover:text-yellow-400">Joueurs</a>
-        <a href="#history" class="text-white hover:text-yellow-400">Historique</a>
-        <a href="#ranking" class="text-white hover:text-yellow-400">Classement</a>
+        <a href="#Cards.html" class="text-white hover:text-yellow-400">Accueil</a>
+        <a href="#game.html" class="text-white hover:text-yellow-400">game</a>
+        <a href="#history.html" class="text-white hover:text-yellow-400">Historique</a>
+      
     </div>
 
 </nav>
     </nav>
 
-    <!-- Image -->
-    <img
-        src="https://images.steamusercontent.com/ugc/540766501024050137/FA4A40F989911E52B214F4D852AF8CE75AAA3515/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
-        alt="Emperor"
-        class="h-44  w-full max-w-4xl object-contain sm:h-52"
-
-    >
 
     <!-- PLAYER CARDS AREA -->
 <section id="Cards"
@@ -68,6 +58,48 @@
 
     </div>
 
+
+
+<div id="players-list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+    <!-- Player Card 1 -->
+    <div class="rounded-xl border border-yellow-500 bg-slate-900 p-5 shadow-lg">
+
+        <div class="mb-4 flex items-center justify-between">
+            <span class="text-sm font-semibold text-yellow-400">PLAYER 01</span>
+            <span class="rounded-full bg-green-900 px-3 py-1 text-xs text-green-300">
+                Active
+            </span>
+        </div>
+
+        <div class="mb-4 flex flex-col items-center">
+            <img src="https://placehold.co/100x100"
+                 alt="Player avatar"
+                 class="h-24 w-24 rounded-full border-2 border-yellow-400 object-cover">
+
+            <h3 class="mt-3 text-xl font-bold text-white">Mohamed</h3>
+            <p class="text-sm text-slate-400">Beginner</p>
+        </div>
+
+        <div class="mb-4 space-y-2 text-sm text-slate-300">
+            <p>Wins: <span class="font-bold text-green-400">5</span></p>
+            <p>Losses: <span class="font-bold text-red-400">2</span></p>
+            <p>Points: <span class="font-bold text-yellow-400">15</span></p>
+        </div>
+
+        <div class="flex gap-3">
+            <button class="flex-1 rounded-lg bg-yellow-500 px-3 py-2 font-bold text-black hover:bg-yellow-400">
+                Edit
+            </button>
+
+            <button class="flex-1 rounded-lg border border-red-500 px-3 py-2 font-bold text-red-400 hover:bg-red-500 hover:text-white">
+                Delete
+            </button>
+        </div>
+
+    </div>
+
+</div>
 </section>
 
     <main class="mx-auto grid w-full max-w-7xl grid-cols-1 items-start  gap-6 px-4 px-8 sm:px-6 lg:grid-cols-12 lg:gap-8">
@@ -84,7 +116,7 @@
             </h2>
 
             <div class="flex flex-col gap-3">
-                <a href="Cards" class="hover:text-yellow-400">📋Information📋</a>
+                
                 <a href="#Players" class="hover:text-yellow-400">👤 Players profile👤</a>
                 <a href="#history" class="hover:text-yellow-400">🏆Classement🏆</a>
                 <a href="#game" class="hover:text-yellow-400">📜Playing rules📜</a>
@@ -118,7 +150,7 @@
                 class="mt-3 w-full rounded-lg bg-slate-800 p-2 text-white">
                     <option value="all">All results</option>
                     <option value="win">Wins</option>
-                    <option value="Loss">losszs</option>
+                    <option value="Loss">losses</option>
                     <option value="Draw">Draws</option>
                 </select>
                   </div>

@@ -86,7 +86,7 @@ export function addPlayer(nickname,avatar){
         };
     }
       const newPlayer = {
-        id: `p_${Date.now()}`,
+        id: `p_${Date.now()}`,  
         nickname:nickname,
         avatar:avatar,
         createdAt : new Date().toISOString().split("T")[0]
