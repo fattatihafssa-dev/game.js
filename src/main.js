@@ -1,3 +1,22 @@
+import { startGame , playRound} from "./game.js";
+
+import {
+    addPlayer,
+    updatePlayer,
+    deletePlayer
+} from "./players.js";
+
+import {
+    addGameToHistory,
+    filterHistory
+
+} from "./history.js";
+
+import {
+    renderGame,
+    renderPlayers
+} from "./ui.js";
+
 const playerHand = document.getElementById("player-hand");
 
 const cards = [

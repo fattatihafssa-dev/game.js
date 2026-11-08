@@ -989,6 +989,39 @@ video {
 
 body {
   font-family:Arial,sans-serif;
+  background:
+                radial-gradient(ellipse at center, #49301c 0%, #17100d 65%, #080707 100%);
+  min-height: 100vh;
+}
+
+.gold-border {
+  border: 2px solid #d99b32;
+  box-shadow: 0 0 12px rgba(218, 157, 49, 0.25);
+}
+
+.game-card {
+  width: 125px;
+  height: 205px;
+  flex-shrink: 0;
+  border: 3px solid #e7aa40;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #443027, #17100e);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.game-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 18px rgba(255, 190, 65, 0.6);
+}
+
+.computer-card {
+  background: repeating-linear-gradient(
+                45deg,
+                #3a2017,
+                #3a2017 10px,
+                #24130f 10px,
+                #24130f 20px
+            );
 }
 
 .hover\:bg-red-500:hover {
