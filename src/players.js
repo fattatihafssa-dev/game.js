@@ -7,70 +7,34 @@ import {
     saveSelectedPlayer
 } from "./storage.js";
 
-
-
-export function validationNickname(nickname) {
-    const regex = /^[A-Za-z0-9]{3,15}$/;
-
-    return typeof nickname === "string" &&
-        regex.test(nickname.trim());
-}
-
-
-
-export function nicknameExists(nickname, excludedId = null) {
+export function addPlayer(playerData) {
     const players = getPlayers();
 
-    return players.some(player =>
-        player.id !== excludedId &&
-        player.nickname.toLowerCase() === nickname.trim().toLowerCase()
-    );
-}
+    const nickname = playerData.nickname.trim();
+    const avatar = playerData.avatar.trim();
 
-
-
-export function validationAvatar(avatar) {
-    const allowedAvatars = [
-        "dragon",
-        "empereur",
-        "citizen",
-        "slave"
-    ];
-
-    return allowedAvatars.includes(avatar);
-}
-
-
-
-
-export function addPlayer(nickname, avatar) {
-    if (typeof nickname !== "string") {
+    if (nickname.length < 3 || nickname.length > 20) {
         return {
             success: false,
-            message: "Pseudo invalide."
+            message: "Le pseudo doit contenir entre 3 et 20 caractères."
         };
     }
 
-    nickname = nickname.trim();
-
-    if (!validationNickname(nickname)) {
+    if (!avatar) {
         return {
             success: false,
-            message: "Pseudo invalide : 3 à 15 lettres ou chiffres."
+            message: "Veuillez choisir un avatar."
         };
     }
 
-    if (nicknameExists(nickname)) {
+    const exists = players.some(function(player) {
+        return player.nickname.toLowerCase() === nickname.toLowerCase();
+    });
+
+    if (exists) {
         return {
             success: false,
             message: "Ce pseudo existe déjà."
-        };
-    }
-
-    if (!validationAvatar(avatar)) {
-        return {
-            success: false,
-            message: "Avatar invalide."
         };
     }
 
@@ -78,13 +42,10 @@ export function addPlayer(nickname, avatar) {
         id: `p_${Date.now()}`,
         nickname: nickname,
         avatar: avatar,
-        createdAt: new Date().toISOString().split("T")[0]
+        createdAt: new Date().toISOString()
     };
 
-    const players = getPlayers();
-
     players.push(newPlayer);
-
     savePlayers(players);
 
     return {
@@ -95,148 +56,82 @@ export function addPlayer(nickname, avatar) {
 }
 
 
-
-
-export function editPlayer(id, newNickname, newAvatar) {
-    if (typeof newNickname !== "string") {
-        return {
-            success: false,
-            message: "Pseudo invalide."
-        };
-    }
-
-    newNickname = newNickname.trim();
-
+export function updatePlayer(playerId, updatedData) {
     const players = getPlayers();
 
-    const player = players.find(player => player.id === id);
+    const index = players.findIndex(function(player) {
+        return player.id === playerId;
+    });
 
-    if (!player) {
+    if (index === -1) {
         return {
             success: false,
             message: "Joueur introuvable."
         };
     }
 
-    if (!validationNickname(newNickname)) {
+    const nickname = updatedData.nickname.trim();
+    const avatar = updatedData.avatar.trim();
+
+    if (nickname.length < 3 || nickname.length > 20) {
         return {
             success: false,
-            message: "Pseudo invalide : 3 à 15 lettres ou chiffres."
+            message: "Le pseudo doit contenir entre 3 et 20 caractères."
         };
     }
 
-    if (nicknameExists(newNickname, id)) {
+    const duplicate = players.some(function(player) {
+        return player.id !== playerId &&
+            player.nickname.toLowerCase() === nickname.toLowerCase();
+    });
+
+    if (duplicate) {
         return {
             success: false,
-            message: "Ce pseudo existe déjà."
+            message: "Ce pseudo est déjà utilisé."
         };
     }
 
-    if (!validationAvatar(newAvatar)) {
-        return {
-            success: false,
-            message: "Avatar invalide."
-        };
-    }
-
-    player.nickname = newNickname;
-    player.avatar = newAvatar;
+    players[index] = {
+        ...players[index],
+        nickname: nickname,
+        avatar: avatar || players[index].avatar
+    };
 
     savePlayers(players);
 
-    // Update the selected player if necessary
     const selectedPlayer = getSelectedPlayer();
 
-    if (selectedPlayer && selectedPlayer.id === id) {
-        saveSelectedPlayer(player);
+    if (selectedPlayer && selectedPlayer.id === playerId) {
+        saveSelectedPlayer(players[index]);
     }
 
     return {
         success: true,
-        message: "Joueur modifié avec succès.",
-        player: player
+        message: "Profil modifié avec succès.",
+        player: players[index]
     };
 }
 
 
-
-
-export function deletePlayer(id) {
+export function deletePlayer(playerId) {
     const players = getPlayers();
 
-    const playerExists = players.some(player => player.id === id);
+    const updatedPlayers = players.filter(function(player) {
+        return player.id !== playerId;
+    });
 
-    if (!playerExists) {
-        return {
-            success: false,
-            message: "Joueur introuvable."
-        };
+    if (updatedPlayers.length === players.length) {
+        return false;
     }
-
-    const updatedPlayers = players.filter(player =>
-        player.id !== id
-    );
 
     savePlayers(updatedPlayers);
 
-    // Clear selection if this player was active
     const selectedPlayer = getSelectedPlayer();
 
-    if (selectedPlayer && selectedPlayer.id === id) {
+    if (selectedPlayer && selectedPlayer.id === playerId) {
         saveSelectedPlayer(null);
     }
 
-    return {
-        success: true,
-        message: "Joueur supprimé avec succès."
-    };
-}
-
-
-
-
-export function getPlayerById(id) {
-    const players = getPlayers();
-
-    return players.find(player => player.id === id) || null;
-}
-
-
-
-
-export function selectPlayer(id) {
-    const player = getPlayerById(id);
-
-    if (!player) {
-        return {
-            success: false,
-            message: "Joueur introuvable."
-        };
-    }
-
-    saveSelectedPlayer(player);
-
-    return {
-        success: true,
-        message: "Joueur sélectionné avec succès.",
-        player: player
-    };
-}
-
-
-
-export function getActivePlayer() {
-    const selectedPlayer = getSelectedPlayer();
-
-    if (!selectedPlayer) {
-        return null;
-    }
-
-    return getPlayerById(selectedPlayer.id);
-}
-
-
-
-export function getAllPlayers() {
-    return getPlayers();
+    return true;
 }

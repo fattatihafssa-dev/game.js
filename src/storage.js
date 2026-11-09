@@ -1,26 +1,41 @@
+// src/storage.js
+
 export function getPlayers() {
-    return JSON.parse(localStorage.getItem("players")) || [];
-
+    try {
+        return JSON.parse(localStorage.getItem("players")) || [];
+    } catch {
+        return [];
+    }
 }
 
-export function savePlayers(players){
-   localStorage.setItem("players", JSON.stringify(players));
-
+export function savePlayers(players) {
+    localStorage.setItem("players", JSON.stringify(players));
 }
 
-export function getSelectedPlayer(){
-    return JSON.parse(localStorage.getItem("selectedPlayer"))|| null;
-
+export function getSelectedPlayer() {
+    try {
+        return JSON.parse(localStorage.getItem("selectedPlayer")) || null;
+    } catch {
+        return null;
+    }
 }
 
 export function saveSelectedPlayer(player) {
-    localStorage.setItem("selectedPlayer", JSON.stringify(player));
+    if (player) {
+        localStorage.setItem("selectedPlayer", JSON.stringify(player));
+    } else {
+        localStorage.removeItem("selectedPlayer");
+    }
 }
 
-export function getHistory(){
-    return JSON.parse(localStorage.getItem("history"))|| [];
+export function getHistory() {
+    try {
+        return JSON.parse(localStorage.getItem("history")) || [];
+    } catch {
+        return [];
+    }
 }
-export function saveHistory(history){
-    localStorage.setItem("history",JSON.stringify(history));
-    
+
+export function saveHistory(history) {
+    localStorage.setItem("history", JSON.stringify(history));
 }

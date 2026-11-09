@@ -1,314 +1,335 @@
-//Adds, edits, deletes and selects player profile
-export function createHands(playerCamp) {
+// src/game.js
 
-    let playerHand = [];
-    let computerHand = [];
-
-    if (playerCamp === "empereur") {
-        playerHand = ["empereur", "empereur", "empereur", "citizen", "citizen"];
-        computerHand = ["citizen", "citizen", "citizen", "slave", "slave"];
+// Create the five cards for each camp
+export function createHands(camp) {
+    if (camp === "empereur") {
+        return [
+            "empereur",
+            "citizen",
+            "citizen",
+            "citizen",
+            "citizen"
+        ];
     }
 
-    else {
-         
-        playerHand = ["citizen", "citizen", "citizen", "slave", "slave"];
-        computerHand = ["slave", "slave", "slave", "empereur", "empereur"];
-    }
-
-
-
-    return {
-        playerHand: [...playerHand],
-        computerHand: [...computerHand]
-    };
+    return [
+        "slave",
+        "citizen",
+        "citizen",
+        "citizen",
+        "citizen"
+    ];
 }
 
-  export function getComputerChoice(computerHand) {
+
+// Get a random card from the computer's hand
+export function getComputerChoice(computerHand) {
+    if (computerHand.length === 0) {
+        return null;
+    }
+
     const randomIndex = Math.floor(
-          Math.random()*computerHand.length
+        Math.random() * computerHand.length
     );
 
     return computerHand[randomIndex];
-  }
-    export function duel (cartJoueur , cartteOrdinateur) {
+}
+
+
+// Compare the two cards
+export function duel(playerChoice, computerChoice) {
+    if (playerChoice === computerChoice) {
         return "égalité";
     }
 
     if (
-        (carteJoueur === "empereur" && cartOrdinateur === "citoyen")||
-       (carteJoueur === "citoyen" && cartOrdinateur === "esclave")||
-       (carteJoueur === "esclave" && cartOrdinateur === "empereur")
-    ){ 
-
+        (playerChoice === "empereur" && computerChoice === "citizen") ||
+        (playerChoice === "citizen" && computerChoice === "slave") ||
+        (playerChoice === "slave" && computerChoice === "empereur")
+    ) {
         return "victoire";
     }
+
     return "défaite";
-
-export function duel(cartJoueur , carteOrdinateur) {
-
-    if (cartJoueur === cartOrinateur )  {
-        return "égalité";
-
-    }
-
-
-      if ( 
-          ( cartJoueur === "empereur" && cartOrinateur === "citizen") ||
-          ( cartJoueur === "citizen" && cartOrinateur === "slave") ||
-          ( cartJoueur === "slave" && cartOrinateur === "empereur") 
-      ) {
-
-          return "victoire";
-      }
-
-          return "défaite";      
-    }
-          export function removCard(hand , card ) {
-            const newHard = [...hand];
-
-            const index = newHand.indexOf(card)
-
-            if ( index !==  -1 )  {
-                newHand.splice(index , 1 )
-
-            }
-               return newHand ; 
-          }
-
-          export function getPoints (camp) {
-    if(camp === "empereur") {
-        return 1 ;
-    }
-
-    return 5 ; 
- }
-      
-
-
-
- 
-          
- export function starGame (player){
-    const playerCamp = "empereur";
-    const hands = craeteHnad(playerHand);
-    return {
-        playerId : player.id,
-        nickname: player.nickname,
-
-        currentRound ; 1,
-         playerCamp: playerCamp,
-
-         playerHand : hands.playerHand,
-         computerHand:hands.computerHand,
-
-         playerScore:0,
-         computerScore:0,
-
-         rounds: [],
-         finished: false
-
-    };
 }
 
-export function computerPlaysFirst(game) {
-    if (game.finished || game.firstPlayer !== "esclave") {
-        return {
-            success: false,
-            message: "Ce n'est pas au tour de l'ordinateur de commencer."
-        };
+
+// Remove one card from a hand
+export function removeCard(hand, card) {
+    const updatedHand = [...hand];
+    const index = updatedHand.indexOf(card);
+
+    if (index !== -1) {
+        updatedHand.splice(index, 1);
     }
 
-    const computerChoice = getComputerChoice(game.computerHand);
+    return updatedHand;
+}
 
-    game.computerHand = removeCard(
-        game.computerHand,
-        computerChoice
-    );
 
-    game.pendingComputerChoice = computerChoice;
+// Points depend on the winning camp
+export function getPoints(camp) {
+    return camp === "empereur" ? 1 : 5;
+}
+
+
+// Get the opposite camp
+export function getComputerCamp(playerCamp) {
+    return playerCamp === "empereur" ? "slave" : "empereur";
+}
+
+
+// Start a new game
+export function startGame(player) {
+    if (!player || !player.id) {
+        throw new Error("Un joueur doit être sélectionné.");
+    }
 
     return {
-        success: true,
-        computerChoice: computerChoice
+        player,
+
+        playerCamp: "empereur",
+
+        firstPlayer: "empereur",
+
+        currentRound: 1,
+
+        playerHand: createHands("empereur"),
+
+        computerHand: createHands("slave"),
+
+        playerScore: 0,
+
+        computerScore: 0,
+
+        pendingComputerChoice: null,
+
+        currentRoundDuels: [],
+
+        rounds: [],
+
+        finished: false
     };
 }
 
 
+// Alternate the first player after every duel
+function changeFirstPlayer(game) {
+    game.firstPlayer =
+        game.firstPlayer === "empereur" ? "slave" : "empereur";
+}
 
 
- export function playRound(game , playerChoice ) {
-    if ( game.finished || game.rounds.length>= 12 ) {
-        return {
-            success: false,
-            message: "La partie est terminée ."
-        };
-        }
-
-         if (!game.playerHand.includes(playerChoice)) {
-        return {
-            success: false,
-            message: "Cette carte n'est pas disponible."
-        };
+// Prepare the next round
+function prepareNextRound(game, completedRound) {
+    if ([3, 6, 9].includes(completedRound)) {
+        game.playerCamp = getComputerCamp(game.playerCamp);
     }
-
-    if (game.computerHand.length === 0) {
-        return {
-            success: false,
-            message: "Il ne reste plus de cartes."
-        };
-    }
-
-
-
-        const computerChoice = getComputerChoice(); 
-        const result = gatWinner(playerChoice,computerChoice);
-
-        game.playerHand  = removeCard(game.playerHand , playerChoice);
-        game.computerHand = removeCard(game.computerHand , computerChoice);
-
-
-         if (result === "draw")
-            return {
-        
-           success: true,
-            result: "égalité",
-            computerChoice: computerChoice,
-            playerHand: game.playerHand,
-            computerHand: game.computerHand,
-            roundFinished: false
-        };
-    }
-
-         game.rounds.push({
-            round : game.currentRound,
-            playerCamp:game.playerCamp,
-            playerChoic: playerChoice , 
-            computerChoice : computerChoice,
-            result : result 
-         });
-    
-          if ( game.round.length === 12 ) {
-            game.finished = true ;  
-             let finalResult = "draw";
-
-             if ( game.playerScore > game.computerScore){
-                finalResult = "win";
-                
-             }
-               } else if (game.playerScore < game.computerScore) {
-
-           
-                finalResult = "lose";
-             }
-
-            return {
-                 success: true,
-            result: result,
-            computerChoice: computerChoice,
-            roundFinished: true,
-            gameFinished: true,
-            finalResult: finalResult,
-            playerScore: game.playerScore,
-            computerScore: game.computerScore
-        };
-    
 
     game.currentRound++;
 
-    if (
-        game.currentRound === 4 ||
-        game.currentRound === 7 ||
-        game.currentRound === 10
-    ) {
-        game.playerCamp =
-            game.playerCamp === "empereur" ? "esclave" : "empereur";
+    game.playerHand = createHands(game.playerCamp);
+
+    game.computerHand = createHands(
+        getComputerCamp(game.playerCamp)
+    );
+
+    game.pendingComputerChoice = null;
+
+    game.currentRoundDuels = [];
+}
+
+
+// Computer chooses first when its camp has the first turn
+export function computerPlaysFirst(game) {
+    if (!game || game.finished) {
+        return {
+            success: false,
+            message: "La partie est terminée."
+        };
     }
 
-    // Restore five cards for the next round
-    const newHands = createHands(game.playerCamp);
+    if (game.firstPlayer === game.playerCamp) {
+        return {
+            success: false,
+            message: "C'est au joueur de commencer."
+        };
+    }
 
-    game.playerHand = newHands.playerHand;
-    game.computerHand = newHands.computerHand;
+    if (game.pendingComputerChoice !== null) {
+        return {
+            success: false,
+            message: "L'ordinateur a déjà choisi sa carte."
+        };
+    }
+
+    const choice = getComputerChoice(game.computerHand);
+
+    if (!choice) {
+        return {
+            success: false,
+            message: "L'ordinateur n'a plus de cartes."
+        };
+    }
+
+    game.computerHand = removeCard(game.computerHand, choice);
+
+    game.pendingComputerChoice = choice;
 
     return {
         success: true,
-        result: result,
-        computerChoice: computerChoice,
-        roundFinished: true,
-        gameFinished: false,
-        currentRound: game.currentRound,
-        playerCamp: game.playerCamp,
-        playerScore: game.playerScore,
-        computerScore: game.computerScore
-    };
-
-if(game.rounds.length === 12 ) {
-            game.finished = true ; 
-            let finalResult = "draw";
-
-            let (game.playerScore > game.computerScore) {
-                finalResult = "win";
-
-            }
-
-            else if (game.playScore < game.computerScore ) {
-                finalResult = "lose";
-            }
-         
-            addGamaeToHistory({
-                playerId: game.playerId,
-                nickname: game.nickname,
-                playerScore: game.playerScore,
-                computerScore:game.computerScore , 
-                draws : game.draws,
-                result: finalResult,
-                rounds: game.rounds
-    });
-}   
-
-  
-      
-
-          export function playDuel ( playerHand , computerHand ) {
-            //MAKE COPIES OF BOTH HANDS////
-
-            
-            let newPlayerHand = [...playerHand];
-            let newComputerHand = [...computerHand];
-
-            white (newPlayerHand.length > 0 && newComputerHand.length > 0 ) {
-                //PLAYER CHOOSES THE FIRST CARD
-
-                const playerChoice = newPlayerHand[0];
-                //COMPUTER CHOOSE THE FIRST CARD 
-
-
-                const result = duel (playerChoice , computerChoice ) ;
-            // COMPARE THE TWO CARDS ////
-              const result = duel ( playerChoice , computerChoice );
-
-
-               newPlayerHand = removeCard(newPlayerHand, playerChoice);
-                newComputerHand = removeCard(newComputerHand, computerChoice);
-
-        // If there is a winner, stop the duel
-        if (result !== "égalité") {
-            return {
-                result: result,
-                playerHand: newPlayerHand,
-                computerHand: newComputerHand
-            };
-        }
-
-        // If equality, continue the loop
-    }
-
-    return {
-        result: "égalité",
-        playerHand: newPlayerHand,
-        computerHand: newComputerHand
+        message: "L'ordinateur a choisi sa carte."
     };
 }
 
 
-           
+// Play one duel
+export function playRound(game, playerChoice) {
+    if (!game || game.finished) {
+        return {
+            success: false,
+            message: "La partie est terminée."
+        };
+    }
+
+    if (!game.playerHand.includes(playerChoice)) {
+        return {
+            success: false,
+            message: "Cette carte n'est plus disponible."
+        };
+    }
+
+    const computerStarts = game.firstPlayer !== game.playerCamp;
+
+    if (computerStarts && game.pendingComputerChoice === null) {
+        return {
+            success: false,
+            message: "L'ordinateur doit choisir en premier."
+        };
+    }
+
+    let computerChoice = game.pendingComputerChoice;
+
+    if (computerChoice === null) {
+        computerChoice = getComputerChoice(game.computerHand);
+
+        if (!computerChoice) {
+            return {
+                success: false,
+                message: "L'ordinateur n'a plus de cartes."
+            };
+        }
+
+        game.computerHand = removeCard(
+            game.computerHand,
+            computerChoice
+        );
+    }
+
+    game.playerHand = removeCard(game.playerHand, playerChoice);
+
+    game.pendingComputerChoice = null;
+
+    const result = duel(playerChoice, computerChoice);
+
+    const duelData = {
+        playerChoice,
+        computerChoice,
+        result
+    };
+
+    game.currentRoundDuels.push(duelData);
+
+    changeFirstPlayer(game);
+
+    // Equality: both cards stay removed.
+    if (result === "égalité") {
+        if (game.currentRoundDuels.length === 5) {
+            return finishRound(game, null, duelData);
+        }
+
+        return {
+            success: true,
+            game,
+            result,
+            message: "Égalité ! Les deux cartes sont retirées. Rejouez.",
+            roundFinished: false,
+            duel: duelData
+        };
+    }
+
+    // Determine which camp won
+    const playerWon = result === "victoire";
+
+    const winnerCamp = playerWon
+        ? game.playerCamp
+        : getComputerCamp(game.playerCamp);
+
+    const points = getPoints(winnerCamp);
+
+    if (playerWon) {
+        game.playerScore += points;
+    } else {
+        game.computerScore += points;
+    }
+
+    return finishRound(game, winnerCamp, duelData, points);
+}
+
+
+// Finish a round and prepare the next one
+function finishRound(game, winnerCamp, duelData, points = 0) {
+    const completedRound = game.currentRound;
+
+    const roundResult = {
+        round: completedRound,
+        winnerCamp: winnerCamp,
+        points: points,
+        duels: [...game.currentRoundDuels]
+    };
+
+    game.rounds.push(roundResult);
+
+    game.currentRoundDuels = [];
+
+    if (completedRound === 12) {
+        game.finished = true;
+
+        return {
+            success: true,
+            game,
+            result: duelData.result,
+            duel: duelData,
+            roundFinished: true,
+            message: "Les 12 manches sont terminées !",
+            finalResult: getGameWinner(game)
+        };
+    }
+
+    prepareNextRound(game, completedRound);
+
+    return {
+        success: true,
+        game,
+        result: duelData.result,
+        duel: duelData,
+        roundFinished: true,
+        message: winnerCamp
+            ? `Le camp ${winnerCamp} remporte la manche !`
+            : "Manche terminée sur une égalité !"
+    };
+}
+
+
+// Get the final winner
+export function getGameWinner(game) {
+    if (game.playerScore > game.computerScore) {
+        return "victoire";
+    }
+
+    if (game.playerScore < game.computerScore) {
+        return "défaite";
+    }
+
+    return "égalité";
+}
